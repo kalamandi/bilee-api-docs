@@ -43,35 +43,7 @@ info:
        ```cpp
        c++
        ```
-
-      ````js
-      async function generateSignature(data, password) {
-      const tokenData = {
-        ...data,
-        password,
-      };
-
-      const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
-
-      const sortedTokenData = Object.keys(tokenData)
-        .filter((key) => !excludedKeys.includes(key))
-        .sort()
-        .map((key) => tokenData[key])
-        .join("");
-
-    const encoder = new TextEncoder();
-    const encodedData = encoder.encode(sortedTokenData);
-
-      const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
-
-      return hashHex;
-    }      
-    ````
-
+       
     # Introduction
 
     This API definition is intended to to be a good starting point for
