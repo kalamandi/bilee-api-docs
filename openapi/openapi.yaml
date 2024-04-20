@@ -28,11 +28,16 @@ info:
 
     ## Подпись запроса
 
-    <code>
+    ```JS
       const x = 1;
       console.log(x);
       alert('test');
-    </code>
+    ```
+
+
+    ```Python
+      print('питон тест')
+    ```
 
     # Introduction
 
