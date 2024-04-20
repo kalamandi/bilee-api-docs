@@ -32,16 +32,12 @@ info:
     Пример генерации подписи запроса `signature`:
 
     1. Code snippets in a list.
-        ```javascript
+        ```JavaScript
         javascript;
         ```
 
-        ```python
+        ```Python
         python
-        ```
-
-        ```cpp
-        c++
         ```
        
     # Introduction
