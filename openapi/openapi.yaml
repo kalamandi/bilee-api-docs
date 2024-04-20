@@ -31,13 +31,13 @@ info:
 
     Пример генерации подписи запроса `signature`:
 
-      ```JS
+      ```js
       const x = 1;
       console.log(x);
       alert('test');
       ```
 
-      ```Python
+      ```python
       print('питон тест')
       ```
 
