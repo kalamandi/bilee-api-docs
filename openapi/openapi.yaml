@@ -28,7 +28,11 @@ info:
 
     ## Подпись запроса
 
-    <code>alert('test')</code>
+    <code>
+      const x = 1;
+      console.log(x);
+      alert('test');
+    </code>
 
     # Introduction
 
