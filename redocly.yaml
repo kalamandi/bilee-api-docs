@@ -1,7 +1,8 @@
 # See https://redocly.com/docs/cli/configuration/ for more information.
 apis:
-  sample@v1: 
-    root: openapi/openapi.yaml
+    root: ./openapi/openapi.yaml
+    rules:
+      no-ambiguous-paths: error
 extends:
   - recommended
 rules:
