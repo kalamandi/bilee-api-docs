@@ -1,3 +1,4 @@
+---
 openapi: 3.1.0
 info:
   version: 1.0.0
@@ -28,7 +29,7 @@ info:
 
     ## Подпись запроса
 
-    Пример генерации подписи запроса:
+    Пример генерации подписи запроса `signature`:
 
       ```JS
       const x = 1;
@@ -143,3 +144,4 @@ webhooks:
           description: "Successfully retrieved information about a new user."
       security:
         - api_key: []
+---
