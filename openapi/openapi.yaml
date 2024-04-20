@@ -30,14 +30,14 @@ info:
 
     Пример генерации подписи запроса:
 
-    1. ```JS
-        const x = 1;
-        console.log(x);
-        alert('test');
+      ```JS
+      const x = 1;
+      console.log(x);
+      alert('test');
       ```
 
       ```Python
-        print('питон тест')
+      print('питон тест')
       ```
 
     # Introduction
