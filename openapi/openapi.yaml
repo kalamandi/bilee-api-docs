@@ -29,39 +29,18 @@ info:
 
     ## Подпись запроса
 
+    Перед выполнением запроса MAPI проверяет, можно ли доверять его инициатору. Для этого сервер проверяет подпись запроса. В запросе должен добавлять подпись к каждому запросу, где это требуется.
+
+    :::info
+
+    В описании входных параметров для каждого метода указано, нужно ли подписывать запрос. Подпись формируется на основании тех полей, которые присутствуют в запросе, поэтому для каждого запроса она уникальна, и не совпадают никогда.
+
+    :::
+
     ### Пример генерации подписи запроса `signature`:
 
     **JavaSript:**
       ```javascript
-      async function generateSignature(data, password) {
-        const tokenData = {
-          ...data,
-          password,
-        };
-
-        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
-
-        const sortedTokenData = Object.keys(tokenData)
-          .filter((key) => !excludedKeys.includes(key))
-          .sort()
-          .map((key) => tokenData[key])
-          .join("");
-
-        const encoder = new TextEncoder();
-        const encodedData = encoder.encode(sortedTokenData);
-
-        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
-
-        return hashHex;
-      }
-      ```
-
-    **Python:**
-      ```python
       async function generateSignature(data, password) {
         const tokenData = {
           ...data,
