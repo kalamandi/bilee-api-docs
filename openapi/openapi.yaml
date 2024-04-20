@@ -1,21 +1,20 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Example API
-  termsOfService: https://example.com/terms/
+  title: Bilee Pay API
   contact:
-    name: Contact our support
-    email: contact@example.com
-    url: http://example.com/contact
+    name: Техническая поддержка
+    url: http://t.me/kalamandi
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   x-logo:
     url: 'https://redocly.github.io/openapi-template/logo.png'
-    altText: OpenAPI example logo
+    altText: Bilee Logo
   description: >
-    This is an **example** API to demonstrate features of the OpenAPI
-    specification.
+    # Введение
+    После одобрения магазина Вам понадобится программист для настройки интеграции магазина с платёжной системой.
+    Интеграция проходит с помощью **API**.
 
     # Introduction
 
