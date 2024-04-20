@@ -28,16 +28,17 @@ info:
 
     ## Подпись запроса
 
-    ```JS
-      const x = 1;
-      console.log(x);
-      alert('test');
-    ```
+    Пример генерации подписи запроса:
 
+    1. ```JS
+        const x = 1;
+        console.log(x);
+        alert('test');
+      ```
 
-    ```Python
-      print('питон тест')
-    ```
+      ```Python
+        print('питон тест')
+      ```
 
     # Introduction
 
