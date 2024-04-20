@@ -1,5 +1,6 @@
 # See https://redocly.com/docs/cli/configuration/ for more information.
 apis:
+  core@v2:
     root: ./openapi/openapi.yaml
     rules:
       no-ambiguous-paths: error
