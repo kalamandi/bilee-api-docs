@@ -29,16 +29,36 @@ info:
 
     ## Подпись запроса
 
-    Пример генерации подписи запроса `signature`:
+    ### Пример генерации подписи запроса `signature`:
 
-    1. Code snippets in a list.
-        ```JavaScript
-        javascript;
-        ```
+    **JavaSript:**
+    ```javascript
+      async function generateSignature(data, password) {
+        const tokenData = {
+          ...data,
+          password,
+        };
 
-        ```Python
-        python
-        ```
+        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
+
+        const sortedTokenData = Object.keys(tokenData)
+          .filter((key) => !excludedKeys.includes(key))
+          .sort()
+          .map((key) => tokenData[key])
+          .join("");
+
+        const encoder = new TextEncoder();
+        const encodedData = encoder.encode(sortedTokenData);
+
+        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        return hashHex;
+      }
+    ```
        
     # Introduction
 
@@ -77,6 +97,64 @@ tags:
     description: "Example operations for retrieving information."
   - name: Tag
     description: "This is a tag description."
+x-codeSamples: 
+  - lang: "JavaScript"
+    label: "Пример на JS"
+    source: |
+      async function generateSignature(data, password) {
+        const tokenData = {
+          ...data,
+          password,
+        };
+
+        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
+
+        const sortedTokenData = Object.keys(tokenData)
+          .filter((key) => !excludedKeys.includes(key))
+          .sort()
+          .map((key) => tokenData[key])
+          .join("");
+
+        const encoder = new TextEncoder();
+        const encodedData = encoder.encode(sortedTokenData);
+
+        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        return hashHex;
+      }
+  - lang: "Python"
+    label: "Пример на JS"
+    source: |
+      async function generateSignature(data, password) {
+        const tokenData = {
+          ...data,
+          password,
+        };
+
+        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
+
+        const sortedTokenData = Object.keys(tokenData)
+          .filter((key) => !excludedKeys.includes(key))
+          .sort()
+          .map((key) => tokenData[key])
+          .join("");
+
+        const encoder = new TextEncoder();
+        const encodedData = encoder.encode(sortedTokenData);
+
+        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        return hashHex;
+      }
+      
 x-tagGroups:
   - name: General
     tags:
