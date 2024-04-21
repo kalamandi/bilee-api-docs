@@ -21,4 +21,4 @@ post:
   x-codeSamples:
     - lang: NodeJS
       source:
-        $ref: "../code_samples/NodeJS/paymentInit/post.js"
+        $ref: "../code_samples/node_js/payment_init/post.js"

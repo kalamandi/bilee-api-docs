@@ -21,4 +21,4 @@ post:
   x-codeSamples:
     - lang: NodeJS
       source:
-        $ref: "../code_samples/NodeJS/GetOrder/post.js"
+        $ref: "../code_samples/node_js/get_order/post.js"
