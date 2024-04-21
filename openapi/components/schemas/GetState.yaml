@@ -1,0 +1,18 @@
+type: object
+required:
+  - id
+  - shop_id
+  - signature
+properties:
+  id:
+    description: "Цифровой идентификатор счёта"
+    type: number
+    example: 12948
+  shop_id:
+    description: "Идентификатор магазина"
+    type: number
+    example: 2349
+  signature:
+    description: >
+      Подпись запроса
+    type: string

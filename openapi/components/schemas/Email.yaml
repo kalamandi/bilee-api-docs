@@ -1,4 +1,4 @@
-description: "User's email address."
+description: "Почта клиента"
 type: string
 format: email
-example: bunny.rabbit@example.com
+example: user@example.com

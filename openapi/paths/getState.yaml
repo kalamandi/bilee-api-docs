@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Платежи
+  summary: Получение платежа по ID
+  description: "Получение информации о платеже по его цифровому идентификатору (`payment.id`)"
+  operationId: getState
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/GetPayment.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/GetState.yaml"
+    description: "Возвращает объект `payment` с информацией о платеже"
+    required: true
+  x-codeSamples:
+    - lang: NodeJS
+      source:
+        $ref: "../code_samples/NodeJS/GetState/post.js"

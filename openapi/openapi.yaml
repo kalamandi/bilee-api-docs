@@ -4,50 +4,64 @@ info:
   version: 1.0.0
   title: Bilee Pay API
   contact:
-    name: Техническая поддержка
-    url: http://t.me/kalamandi
+    # name: Техническая поддержка
+    # url: http://t.me/kalamandi
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   x-logo:
-    url: 'https://redocly.github.io/openapi-template/logo.png'
+    url: "logo.png"
     altText: Bilee Logo
   description: >
     # Введение
-    
+
     После одобрения магазина Вам понадобится программист для настройки интеграции магазина с платёжной системой.
     Интеграция проходит с помощью **API** — программного интерфейса.
+
+    Все запросы принимаются на URL `https://paymentgate.bilee.ru/api/${path}`
 
     ## Инструкции по безопасности
 
     Убедитесь, что вы используете последнюю версию API, а также генерируете и передаете корректную подпись для запросов, в которых она требуется.
 
-    ## Нотификация
-
-    Магазин отправляет уведомления только об успешных платежах. Помимо получения текстового сообщения в Telegram, Вы можете настроить отправку http-уведомлений на ваш сервер.
-    Нотификация происходит синхронно посредством отправки `POST` запроса на `notify_url`
-
     ## Подпись запроса
 
     Перед выполнением запроса MAPI проверяет, можно ли доверять его инициатору. Для этого сервер проверяет подпись запроса. В запросе должен добавлять подпись к каждому запросу, где это требуется.
 
-      :::info
+      > В описании входных параметров для каждого метода указано, нужно ли подписывать запрос. Подпись формируется на основании тех полей, которые присутствуют в запросе, поэтому для каждого запроса она уникальна, и не совпадают никогда.
 
-      В описании входных параметров для каждого метода указано, нужно ли подписывать запрос. Подпись формируется на основании тех полей, которые присутствуют в запросе, поэтому для каждого запроса она уникальна, и не совпадают никогда.
-    
-      :::
+    Подпись в MAPI - это строка, в которой зашифрованы данные запроса с помощью пароля. Для создания подписи магазин использует `password`, который находится в разделе Настройки \> Интеграция
+
+    Чтобы зашифровать данные запроса Мерчант должен выполнить следующие шаги:
+
+      1. Исключить `metadata` из объекта, а также `signature`, если проверяется валидность запроса
+      2. Добавить в объект с телом запроса `password`
+      3. Отсортировать ключи объекта в алфавитном порядке
+      4. Конкатенировать (объеденить) только значения объекта в одну строку
+      5. Применить к строке хеш-функцию SHA-256 (с поддержкой UTF-8)
+      6. Добавить получившийся результат в значение параметра signature в тело запроса и отправить запрос
 
     ### Пример генерации подписи запроса `signature`:
 
-    **JavaSript:**
+    **JavaScript:**
       ```javascript
+      (async() => {
+        const data = {
+          // some data
+        };
+
+        data.signature = await generateSignature(data, "PASSWORD_HERE");
+
+        axios.post(url, data);
+      })();
+
       async function generateSignature(data, password) {
         const tokenData = {
           ...data,
           password,
         };
 
-        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
+        const excludedKeys = ["metadata", "signature"];
 
         const sortedTokenData = Object.keys(tokenData)
           .filter((key) => !excludedKeys.includes(key))
@@ -67,165 +81,92 @@ info:
         return hashHex;
       }
       ```
-       
-    # Introduction
 
-    This API definition is intended to to be a good starting point for
-    describing your API in [OpenAPI/Swagger
-    format](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md).
+    ## Нотификация
 
-    It also demonstrates features of the
-    [create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool
-    and the [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond
-    the standard OpenAPI syntax, we use a few 
-    [vendor extensions](https://github.com/Redocly/Redoc/blob/main/docs/redoc-vendor-extensions.md).
+    Магазин отправляет уведомления только об успешных платежах. Помимо получения текстового сообщения в Telegram, Вы можете настроить отправку http-уведомлений на ваш сервер.
+    Нотификация происходит синхронно посредством отправки `POST` запроса на `notify_url`
 
-    # OpenAPI Specification
+      В ответ сервер должен вернуть `HttpCode` **200**
+    
+      В противном случае Bilee пришлёт уведомление в Telegram, а также будет пытаться отправить уведомление раз в 15 минут следующие 4 часа
+    
+      Если ответ с кодом 200 так и не будет получен, уведомление отправится в дамп и больше приходить не будет
 
-    The goal of The OpenAPI Specification is to define a standard, language-agnostic interface to REST APIs which
-    allows both humans and computers to discover and understand the capabilities
-    of the service without access to source
-    code, documentation, or through network traffic inspection. When properly
-    defined via OpenAPI, a consumer can 
-    understand and interact with the remote service with a minimal amount of
-    implementation logic. Similar to what
-    interfaces have done for lower-level programming, OpenAPI removes the
-    guesswork in calling the service.
-externalDocs:
-  description: "Find out how to create a GitHub repo for your OpenAPI definition."
-  url: 'https://github.com/Redocly/create-openapi-repo'
-tags:
-  - name: Echo
-    description: "Example echo operations."
-  - name: User
-    description: "Example actions on user accounts."
-  - name: Admin
-    description: "Example operations reserved for administrators."
-  - name: Info
-    description: "Example operations for retrieving information."
-  - name: Tag
-    description: "This is a tag description."
-x-codeSamples: 
-  - lang: "JavaScript"
-    label: "Пример на JS"
-    source: |
-      async function generateSignature(data, password) {
-        const tokenData = {
-          ...data,
-          password,
-        };
+    При получении уведомления рекомендуется проверять его на достоверность с помощью:
+     - Проверки IP адреса отправителя
+     - Проверки подписи запроса
 
-        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
-
-        const sortedTokenData = Object.keys(tokenData)
-          .filter((key) => !excludedKeys.includes(key))
-          .sort()
-          .map((key) => tokenData[key])
-          .join("");
-
-        const encoder = new TextEncoder();
-        const encodedData = encoder.encode(sortedTokenData);
-
-        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
-
-        return hashHex;
-      }
-  - lang: "Python"
-    label: "Пример на JS"
-    source: |
-      async function generateSignature(data, password) {
-        const tokenData = {
-          ...data,
-          password,
-        };
-
-        const excludedKeys = ["DATA", "Receipt", "signature", "metadata"];
-
-        const sortedTokenData = Object.keys(tokenData)
-          .filter((key) => !excludedKeys.includes(key))
-          .sort()
-          .map((key) => tokenData[key])
-          .join("");
-
-        const encoder = new TextEncoder();
-        const encodedData = encoder.encode(sortedTokenData);
-
-        const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
-
-        return hashHex;
-      }
+    ### Проверка IP адреса отправителя
+      На данный момент уведомления отправляются с IP-адреса:
+      - 31.129.97.143
       
+        Об изменениях менеджер сообщит лично
+
+    ### Проверка подписи запроса
+      Для проверкаи подписи рассмотрим пример тела нотификации:
+
+      ```
+      {
+        "id": 192,
+        "uuid": "65754fb5-b001-47bf-a608-7333256e2abe",
+        "order_id": "string",
+        "amount": 100,
+        "commission": 5,
+        "final_amount": 105,
+        "commission_amount": 5,
+        "method_id": 1,
+        "method_title": "2200***8402",
+        "email": "customer@gmail.com",
+        "description": "Заказ #jS9012C",
+        "metadata": {},
+        "shop_id": 190,
+        "status": "confirmed",
+        "success_url": "string",
+        "fail_url": "string",
+        "expires_at": null,
+        "updated_at": "string",
+        "created_at": "string"
+        "signature": "0024a00af7c350a3a67ca168ce06502aa72772456662e38696d48b56ee9c97d9"
+      },
+      ```
+
+    После этого следует сгенерировать подпись по инструкции, исключая параметр `signature`, и сравнить её со входящей:
+
+    ### Пример функции валидации на JavaScript:
+      ```
+      const validateRequest = async (body) => {
+        const validSignature = await generateSignature(body, "PASSWORD HERE");
+        return validSignatire === body.signature;
+      }
+      ```
+    ## Поддержка
+      Если Вам требуется какая-либо техническая поддержка по работе нашего API, или же Вы хотите предложить идея, сообщить о недоработке - пишите в Telegram: [@nessrea](https://t.me/nessrea)
+tags:
+  - name: Платежи
+    description: >
+      # Статусы заказов
+        | Значение  | Описание                                   |
+        | --------  | --------                                   |
+        | new       | Новый, не оплачен                          |
+        | confirmed | Оплачен, деньги списаны с карты покупателя |
+        | canceled  | Отменён. Оплата невозможно                 |
+        | refunded  | Возвращён покупателю                       |  
 x-tagGroups:
-  - name: General
+  - name: Приём платежей
     tags:
-      - User
-      - Info
-      - Echo
-  - name: Administration
-    tags:
-      - Admin
+      - Платежи
 servers:
-  - url: https://{tenant}/api/v1
-    variables:
-      tenant:
-        default: www
-        description: Your tenant id
-  - url: https://example.com/api/v1
+  # - url: https://{tenant}/api/v1
+  #   variables:
+  #     tenant:
+  #       default: www
+  #       description: Your tenant id
+  - url: https://paymentgate.bilee.ru/api
 paths:
-  '/users/{username}':
-    $ref: 'paths/users_{username}.yaml'
-  '/user':
-    $ref: 'paths/user.yaml'
-  '/user/list':
-    $ref: 'paths/user-status.yaml'
-  /pathItem:
-    $ref: paths/pathItem.yaml
-  /pathItemWithExamples:
-    $ref: paths/pathItemWithExamples.yaml
-  '/echo':
-    $ref: 'paths/echo.yaml'
-components:
-  securitySchemes:
-    main_auth:
-      description: "Example description text of the OAuth2 scheme."
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://example.com/api/oauth/dialog
-          scopes:
-            'read:users': read user info
-            'write:users': modify or remove users
-    api_key:
-      description: "Example description text of the API key scheme."
-      type: apiKey
-      in: header
-      name: api_key
-    basic_auth:
-      type: http
-      scheme: basic
-webhooks:
-  userInfo:
-    post:
-      summary: New user webhook
-      description: "Information about a new user in the system."
-      operationId: userInfo
-      tags:
-        - Info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: 'components/schemas/User.yaml'
-      responses:
-        '200':
-          description: "Successfully retrieved information about a new user."
-      security:
-        - api_key: []
+  "/payment/init":
+    $ref: "paths/paymentInit.yaml"
+  "/payment/getOrder":
+    $ref: "paths/getOrder.yaml"
+  "/payment/getState":
+    $ref: "paths/getState.yaml"

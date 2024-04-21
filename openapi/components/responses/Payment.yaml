@@ -1,0 +1,89 @@
+description: Объект с информацией о платеже
+type: object
+required:
+  - id
+  - uuid
+  - order_id
+  - amount
+  - commission
+  - final_amount
+  - commission_amount
+  - method_id
+  - shop_id
+  - status
+  - updated_at
+  - created_at
+properties:
+  id:
+    description: Цифровой идентификатор
+    type: number
+    example: 192
+  uuid:
+    description: Строковый идентификатор в формате UUID v4
+    type: string
+    example: "65754fb5-b001-47bf-a608-7333256e2abe"
+  order_id:
+    description: Номер заказа в системе магазина
+    type: string
+  amount:
+    description: Сумма платежа
+    type: number
+    example: 100
+  commission:
+    description: Комиссия (%)
+    type: number
+    example: 5
+  final_amount:
+    description: Финальная сумма. Зачисляется на баланс магазина. Отлична от `amount` если комиссия не целиком на магахине
+    type: number
+    example: 105
+  commission_amount:
+    description: Сумма комиссии
+    type: number
+    example: 5
+  method_id:
+    description: Цифровой идентификатор метода
+    type: number
+    example: 1
+  method_title:
+    description: Название метода оплаты/зашифрованные реквизиты
+    type: string
+    example: "2200***8402"
+  email:
+    description: Почта клиента
+    type: string
+    example: "customer@gmail.com"
+  description:
+    description: Описание платежа
+    type: string
+    example: "Заказ #jS9012C"
+  metadata:
+    description: >
+      JSON объект, который позволяет передавать дополнительные параметры по операции и задавать определенные настройки в формате `"key": "value"`.
+    type: object
+  shop_id:
+    description: Цифровой идентификатор магазина
+    type: number
+    example: 190
+  status:
+    description: Статус заказа
+    type: string
+    example: "confirmed"
+  success_url:
+    description: URL в случае успешной оплаты
+    type: string
+  fail_url:
+    description: URL в случае неуспешной оплаты
+    type: string
+  expires_at:
+    description: >
+      Cрок жизни платежа. Если текущая дата превышает дату, переданную в данном параметре, ссылка для оплаты и возможность платежа по становятся недоступными и платёж выполнить нельзя.
+    type: date-string
+  updated_at:
+    description: >
+      Дата последнего обновления счёта
+    type: date-string
+  created_at:
+    description: >
+      Дата создания счёта
+    type: date-string

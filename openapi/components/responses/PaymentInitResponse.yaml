@@ -1,0 +1,12 @@
+type: object
+properties:
+  success:
+    type: boolean
+    description: Успешна ли операция
+    example: true
+  payment: 
+    $ref: "./Payment.yaml"
+  url: 
+    type: string
+    description: URL оплаты для клиента
+    example: 'https://pay.bilee.ru/DkA10f'

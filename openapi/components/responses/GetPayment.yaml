@@ -1,0 +1,8 @@
+type: object
+properties:
+  success:
+    type: boolean
+    description: Успешна ли операция
+    example: true
+  payment: 
+    $ref: "./Payment.yaml"

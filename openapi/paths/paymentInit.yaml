@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Платежи
+  summary: Создание счёта
+  description: "Создаёт счёт, возвращает информацию и URL, на который необходимо переадресовать клиента"
+  operationId: initPayment
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/PaymentInitResponse.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/PaymentInit.yaml"
+    description: "Создаёт счёт и возвращает информацию в объекте `payment` и `url` для оплаты"
+    required: true
+  x-codeSamples:
+    - lang: NodeJS
+      source:
+        $ref: "../code_samples/NodeJS/paymentInit/post.js"

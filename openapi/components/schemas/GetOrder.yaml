@@ -1,0 +1,19 @@
+type: object
+required:
+  - order_id
+  - shop_id
+  - signature
+properties:
+  order_id:
+    description: "Идентификатор счёта в системе магазина"
+    type: string
+    maxLength: 36
+    example: 65754fb5-b001-47bf-a608-7333256e2abe
+  shop_id:
+    description: "Идентификатор магазина"
+    type: number
+    example: 2349
+  signature:
+    description: >
+      Подпись запроса
+    type: string
