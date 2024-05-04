@@ -69,6 +69,9 @@ properties:
     description: Статус заказа
     type: string
     example: "confirmed"
+  notify_url:
+    description: URL оповещения
+    type: string
   success_url:
     description: URL в случае успешной оплаты
     type: string
